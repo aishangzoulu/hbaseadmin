@@ -2,6 +2,7 @@ package cn.edu.muc.ilab.test;
 
 import cn.edu.muc.ilab.hbaseadmin.demo.User;
 import cn.edu.muc.ilab.hbaseadmin.demo.UserRepository;
+import cn.edu.muc.ilab.test.util.TestSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import java.util.List;
 /**
  * Created by Raymond on 2017/3/25.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class HadoopConfigTest {
+public class HadoopConfigTest extends TestSupport{
     @Autowired
     private UserRepository userRepository;
     @Test
