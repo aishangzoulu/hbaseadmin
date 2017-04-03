@@ -19,6 +19,8 @@ public class HTableServiceTest  extends TestSupport {
     @Test
     public void testListTable(){
         HTableDescriptor[] hTableDescriptors = hTableDao.listTables();
-        System.out.println(hTableDescriptors.length);
+        for(HTableDescriptor hTableDescriptor:hTableDescriptors){
+            System.out.println(hTableDescriptor.getTableName().getNameAsString());;
+        }
     }
 }
