@@ -4,7 +4,11 @@ import cn.edu.muc.ilab.hbaseadmin.dao.HTableDao;
 import cn.edu.muc.ilab.hbaseadmin.service.HTableService;
 import javafx.scene.control.Tab;
 import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos;
+import org.apache.hadoop.hbase.quotas.QuotaFilter;
+import org.apache.hadoop.hbase.quotas.QuotaRetriever;
+import org.apache.hadoop.hbase.quotas.QuotaSettings;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,6 +168,19 @@ public class HTableServiceImpl implements HTableService {
     public void disableTable(String tableName) {
 
         disableTable(TableName.valueOf(tableName));
+
+    }
+
+    @Override
+    public HTableDescriptor getTableDescriptor(TableName tableName) {
+
+        return hTableDao.getTableDescriptor(tableName);
+
+    }
+
+    public HTableDescriptor getTableDescriptor(byte[] tableName) {
+
+        return getTableDescriptor(TableName.valueOf(tableName));
 
     }
 
@@ -611,7 +628,169 @@ public class HTableServiceImpl implements HTableService {
 
     }
 
+    @Override
+    public void setQuota(QuotaSettings quota) {
 
+        hTableDao.setQuota(quota);
+
+    }
+
+    public QuotaRetriever getQuotaRetriever(QuotaFilter filter) {
+
+        return hTableDao.getQuotaRetriever(filter);
+
+    }
+
+    @Override
+    public CoprocessorRpcChannel coprocessorService() {
+
+        return hTableDao.coprocessorService();
+
+    }
+
+    public CoprocessorRpcChannel coprocessorService(ServerName sn) {
+
+        return hTableDao.coprocessorService(sn);
+
+    }
+
+    @Override
+    public void updateConfiguration(ServerName server) {
+
+        hTableDao.updateConfiguration(server);
+
+    }
+
+    public void updateConfiguration() {
+
+        hTableDao.updateConfiguration();
+
+    }
+
+    @Override
+    public int getMasterInfoPort() {
+
+        return hTableDao.getMasterInfoPort();
+
+    }
+
+    @Override
+    public long getLastMajorCompactionTimestamp(TableName tableName) {
+
+        return hTableDao.getLastMajorCompactionTimestamp(tableName);
+
+    }
+
+    public long getLastMajorCompactionTimestampForRegion(byte[] regionName) {
+
+        return hTableDao.getLastMajorCompactionTimestampForRegion(regionName);
+
+    }
+
+    @Override
+    public int getOperationTimeout() {
+
+        return hTableDao.getOperationTimeout();
+
+    }
+
+    @Override
+    public void abort(String why, Throwable e) {
+
+        hTableDao.abort(why,e);
+
+    }
+
+    @Override
+    public boolean isAborted() {
+
+        return hTableDao.isAborted();
+
+    }
+
+    @Override
+    public List<HRegionInfo> getOnlineRegions(ServerName sn) {
+
+        return hTableDao.getOnlineRegions(sn);
+
+    }
+
+    @Override
+    public void move(byte[] encodedRegionName, byte[] destServerName) {
+
+        hTableDao.move(encodedRegionName,destServerName);
+
+    }
+
+    @Override
+    public void assign(byte[] regionName) {
+
+        hTableDao.assign(regionName);
+
+    }
+
+    @Override
+    public void unassign(byte[] regionName, boolean force) {
+
+        hTableDao.unassign(regionName,force);
+
+    }
+
+    @Override
+    public void offline(byte[] regionName) {
+
+        hTableDao.offline(regionName);
+
+    }
+
+    @Override
+    public boolean setBalancerRunning(boolean on, boolean synchronous) {
+
+        return hTableDao.setBalancerRunning(on, synchronous);
+
+    }
+
+    @Override
+    public boolean balancer() {
+
+        return hTableDao.balancer();
+
+    }
+
+    @Override
+    public boolean isBalancerEnabled() {
+
+        return hTableDao.isBalancerEnabled();
+
+    }
+
+    @Override
+    public boolean enableCatalogJanitor(boolean enable) {
+
+        return hTableDao.enableCatalogJanitor(enable);
+
+    }
+
+    @Override
+    public int runCatalogScan() {
+
+        return hTableDao.runCatalogScan();
+
+    }
+
+    @Override
+    public boolean isCatalogJanitorEnabled() {
+
+        return hTableDao.isCatalogJanitorEnabled();
+
+    }
+
+    @Override
+    public void mergeRegions(byte[] encodedNameOfRegionA, byte[] encodedNameOfRegionB, boolean forcible) {
+
+        hTableDao.mergeRegions(encodedNameOfRegionA,encodedNameOfRegionB,forcible);
+
+    }
 
 
 }

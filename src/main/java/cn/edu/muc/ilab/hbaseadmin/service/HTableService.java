@@ -1,7 +1,12 @@
 package cn.edu.muc.ilab.hbaseadmin.service;
 
 import org.apache.hadoop.hbase.*;
+import org.apache.hadoop.hbase.client.HConnection;
+import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos;
+import org.apache.hadoop.hbase.quotas.QuotaFilter;
+import org.apache.hadoop.hbase.quotas.QuotaRetriever;
+import org.apache.hadoop.hbase.quotas.QuotaSettings;
 import org.apache.hadoop.hbase.util.Pair;
 
 import javax.validation.constraints.NotNull;
@@ -44,6 +49,9 @@ public interface HTableService {
     void disableTable(final TableName tableName);
     void disableTable(final byte[] tableName);
     void disableTable(final String tableName);
+
+    HTableDescriptor getTableDescriptor(final TableName tableName);
+    HTableDescriptor getTableDescriptor(final byte[] tableName);
 
     void truncateTable(final TableName tableName, final boolean preserveSplits);
 
@@ -141,6 +149,35 @@ public interface HTableService {
     void deleteSnapshots(final Pattern pattern);
     void deleteSnapshots(final String regex);
 
+    void setQuota(final QuotaSettings quota);
+    QuotaRetriever getQuotaRetriever(final QuotaFilter filter);
+
+    CoprocessorRpcChannel coprocessorService();
+    CoprocessorRpcChannel coprocessorService(ServerName sn);
+
+    void updateConfiguration(ServerName server);
+    void updateConfiguration();
+
+    int getMasterInfoPort();
+    long getLastMajorCompactionTimestamp(final TableName tableName);
+    long getLastMajorCompactionTimestampForRegion(final byte[] regionName);
+
+    int getOperationTimeout();
+
+    void abort(String why, Throwable e);
+    boolean isAborted();
+    List<HRegionInfo> getOnlineRegions(final ServerName sn);
+    void move(final byte [] encodedRegionName, final byte [] destServerName);
+    void assign(final byte[] regionName);
+    void unassign(final byte [] regionName, final boolean force);
+    void offline(final byte [] regionName);
+    boolean setBalancerRunning(final boolean on, final boolean synchronous);
+    boolean balancer();
+    boolean isBalancerEnabled();
+    boolean enableCatalogJanitor(final boolean enable);
+    int runCatalogScan();
+    boolean isCatalogJanitorEnabled();
+    void mergeRegions(final byte[] encodedNameOfRegionA, final byte[] encodedNameOfRegionB, final boolean forcible);
 
 
 

@@ -4,7 +4,11 @@ import cn.edu.muc.ilab.hbaseadmin.dao.HTableDao;
 import com.sun.org.apache.regexp.internal.RE;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
 import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos;
+import org.apache.hadoop.hbase.quotas.QuotaFilter;
+import org.apache.hadoop.hbase.quotas.QuotaRetriever;
+import org.apache.hadoop.hbase.quotas.QuotaSettings;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,6 +215,20 @@ public class HTableDaoImpl implements HTableDao {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public HTableDescriptor getTableDescriptor(TableName tableName) {
+
+        HTableDescriptor result  = null;
+
+        try {
+            result = hBaseAdmin.getTableDescriptor(tableName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override
@@ -596,6 +614,289 @@ public class HTableDaoImpl implements HTableDao {
 
         try {
             hBaseAdmin.deleteSnapshots(pattern);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void setQuota(QuotaSettings quota) {
+
+        try {
+            hBaseAdmin.setQuota(quota);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public QuotaRetriever getQuotaRetriever(QuotaFilter filter) {
+
+        QuotaRetriever result = null;
+
+        try {
+            result = hBaseAdmin.getQuotaRetriever(filter);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public CoprocessorRpcChannel coprocessorService() {
+
+        CoprocessorRpcChannel result = null;
+
+        result =  hBaseAdmin.coprocessorService();
+
+        return result;
+    }
+
+    @Override
+    public CoprocessorRpcChannel coprocessorService(ServerName sn) {
+
+        CoprocessorRpcChannel result = null;
+
+        result =  hBaseAdmin.coprocessorService(sn);
+
+        return result;
+
+    }
+
+    @Override
+    public void updateConfiguration(ServerName server) {
+
+        try {
+            hBaseAdmin.updateConfiguration(server);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void updateConfiguration() {
+
+        try {
+            hBaseAdmin.updateConfiguration();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public int getMasterInfoPort() {
+
+        int result = -1;
+
+        try {
+            result = hBaseAdmin.getMasterInfoPort();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public long getLastMajorCompactionTimestamp(TableName tableName) {
+
+        long result = -1;
+
+        try {
+            result = hBaseAdmin.getLastMajorCompactionTimestamp(tableName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public long getLastMajorCompactionTimestampForRegion(byte[] regionName) {
+
+        long result = -1;
+
+        try {
+            result = hBaseAdmin.getLastMajorCompactionTimestampForRegion(regionName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public int getOperationTimeout() {
+
+        return hBaseAdmin.getOperationTimeout();
+
+    }
+
+    @Override
+    public void abort(String why, Throwable e) {
+
+        hBaseAdmin.abort(why,e);
+
+    }
+
+    @Override
+    public boolean isAborted() {
+        return hBaseAdmin.isAborted();
+    }
+
+
+    @Override
+    public List<HRegionInfo> getOnlineRegions(ServerName sn) {
+
+        List<HRegionInfo> result = null;
+
+        try {
+            result = hBaseAdmin.getOnlineRegions(sn);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public void move(byte[] encodedRegionName, byte[] destServerName) {
+
+        try {
+            hBaseAdmin.move(encodedRegionName,destServerName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void assign(byte[] regionName) {
+
+        try {
+            hBaseAdmin.assign(regionName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void unassign(byte[] regionName, boolean force) {
+
+        try {
+            hBaseAdmin.unassign(regionName,force);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void offline(byte[] regionName) {
+
+        try {
+            hBaseAdmin.offline(regionName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public boolean setBalancerRunning(boolean on, boolean synchronous) {
+
+        boolean result = false;
+
+        try {
+            result = hBaseAdmin.setBalancerRunning(on,synchronous);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean balancer() {
+
+        boolean result = false;
+
+        try {
+            result = hBaseAdmin.balancer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean isBalancerEnabled() {
+
+        boolean result = false;
+
+        try {
+            result = hBaseAdmin.isBalancerEnabled();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean enableCatalogJanitor(boolean enable) {
+
+        boolean result = false;
+
+        try {
+            result  = hBaseAdmin.enableCatalogJanitor(enable);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public int runCatalogScan() {
+
+        int  result = -1;
+
+        try {
+            result = hBaseAdmin.runCatalogScan();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public boolean isCatalogJanitorEnabled() {
+
+        boolean result = false;
+
+        try {
+            result = hBaseAdmin.isCatalogJanitorEnabled();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    @Override
+    public void mergeRegions(byte[] encodedNameOfRegionA, byte[] encodedNameOfRegionB, boolean forcible) {
+
+        try {
+            hBaseAdmin.mergeRegions(encodedNameOfRegionA,encodedNameOfRegionB,forcible);
         } catch (IOException e) {
             e.printStackTrace();
         }
