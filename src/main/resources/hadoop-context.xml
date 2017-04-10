@@ -14,7 +14,7 @@
 	<context:property-placeholder location="classpath:/hbase.properties" />
 	<!-- 配置zookeeper的信息，远程连接hbase时使用 -->
 	<hdp:configuration id="hadoopConfiguration">
-		fs.defaultFS=hdfs://10.10.167.164:9000
+		fs.defaultFS=hdfs://10.10.167.121:9000
 	</hdp:configuration>
 
 	<hdp:hbase-configuration configuration-ref="hadoopConfiguration"
@@ -36,6 +36,7 @@
 	<bean id="hBaseAdmin" class="org.apache.hadoop.hbase.client.HBaseAdmin">
 		<constructor-arg ref="hbaseConfiguration"></constructor-arg>
 	</bean>
+
 	
 	
 </beans>  
