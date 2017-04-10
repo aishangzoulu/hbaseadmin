@@ -30,8 +30,8 @@ public class HTableServiceTest extends TestSupport {
         HTableDescriptor[] hTableDescriptors = hTableService.listTables();
         for (HTableDescriptor hTableDescriptor : hTableDescriptors) {
             System.out.println(hTableDescriptor.getTableName().getNameAsString());
-            ;
         }
+
     }
 
     @Test
