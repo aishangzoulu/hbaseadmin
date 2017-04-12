@@ -1,7 +1,6 @@
 package cn.edu.muc.ilab.hbaseadmin.dao.impl;
 
 import cn.edu.muc.ilab.hbaseadmin.dao.HTableDao;
-import com.sun.org.apache.regexp.internal.RE;
 import org.apache.hadoop.hbase.*;
 import org.apache.hadoop.hbase.client.HBaseAdmin;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
@@ -9,7 +8,6 @@ import org.apache.hadoop.hbase.protobuf.generated.HBaseProtos;
 import org.apache.hadoop.hbase.quotas.QuotaFilter;
 import org.apache.hadoop.hbase.quotas.QuotaRetriever;
 import org.apache.hadoop.hbase.quotas.QuotaSettings;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,6 +18,7 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Raymond on 2017/3/25.
+ *
  */
 
 @Repository
@@ -85,8 +84,6 @@ public class HTableDaoImpl implements HTableDao {
 
         HTableDescriptor descriptor = new HTableDescriptor(TableName.valueOf(tableName));
 
-        byte[][] splitKeys = new byte[columnFamilies.length][];
-
         try {
 
             for (String columnFamily : columnFamilies) {
@@ -117,6 +114,7 @@ public class HTableDaoImpl implements HTableDao {
                 HColumnDescriptor columnDescriptor = new HColumnDescriptor(columnFamily);
 
                 descriptor.addFamily(columnDescriptor);
+
             }
 
             hBaseAdmin.createTableAsync(descriptor, splitKeys);
@@ -133,7 +131,7 @@ public class HTableDaoImpl implements HTableDao {
         try {
             for (String tableName : tableNameList) {
 
-                if (hBaseAdmin.isTableAvailable(tableName)){
+                if (hBaseAdmin.isTableEnabled(tableName)){
 
                     hBaseAdmin.disableTable(tableName);
 
@@ -648,7 +646,7 @@ public class HTableDaoImpl implements HTableDao {
     @Override
     public CoprocessorRpcChannel coprocessorService() {
 
-        CoprocessorRpcChannel result = null;
+        CoprocessorRpcChannel result ;
 
         result =  hBaseAdmin.coprocessorService();
 
@@ -658,7 +656,7 @@ public class HTableDaoImpl implements HTableDao {
     @Override
     public CoprocessorRpcChannel coprocessorService(ServerName sn) {
 
-        CoprocessorRpcChannel result = null;
+        CoprocessorRpcChannel result ;
 
         result =  hBaseAdmin.coprocessorService(sn);
 
