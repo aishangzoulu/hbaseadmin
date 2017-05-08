@@ -98,6 +98,14 @@ public class HTableServiceTest extends TestSupport {
         listTables();
 
     }
+    @Test
+    public void listTest(){
+
+        listTables();
+
+    }
+
+
 
 
 }
